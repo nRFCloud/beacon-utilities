@@ -25,7 +25,7 @@
 	},
 	"scripts": {
 		"clean": "del-cli dist/*.js",
-		"build": "npm run clean && rollup -c",
+		"build": "npm run clean && rollup -c --environment NODE_ENV:production",
 		"dev": "rollup -c -w",
 		"test": "jest",
 		"pretest": "npm run build"
