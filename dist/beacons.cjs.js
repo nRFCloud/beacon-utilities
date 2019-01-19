@@ -40,20 +40,20 @@ function parseAdvertisementBytes(scanRecord) {
         return null;
     }
     scanRecord = scanRecord;
-    let currentPos = 0;
-    let advertiseFlag = -1;
-    let serviceUuids = [];
-    let localName = null;
-    let txPowerLevel = null;
-    let manufacturerData = {};
-    let serviceData = {};
+    var currentPos = 0;
+    var advertiseFlag = -1;
+    var serviceUuids = [];
+    var localName = null;
+    var txPowerLevel = null;
+    var manufacturerData = {};
+    var serviceData = {};
     while (currentPos < scanRecord.length) {
-        let length = scanRecord[currentPos++] & 0xff;
+        var length = scanRecord[currentPos++] & 0xff;
         if (length === 0) {
             break;
         }
-        let dataLength = length - 1;
-        let fieldType = scanRecord[currentPos++] & 0xff;
+        var dataLength = length - 1;
+        var fieldType = scanRecord[currentPos++] & 0xff;
         switch (fieldType) {
             case exports.AdvertisementDataType.DATA_TYPE_FLAGS:
                 advertiseFlag = scanRecord[currentPos] & 0xff;
@@ -78,9 +78,9 @@ function parseAdvertisementBytes(scanRecord) {
                 txPowerLevel = scanRecord[currentPos];
                 break;
             case exports.AdvertisementDataType.DATA_TYPE_SERVICE_DATA:
-                const bytes = extractBytes(scanRecord, currentPos, exports.UUIDLength.UUID_BYTES_16_BIT);
-                const serviceDataUuid = '' + ((bytes[1] & 0xFF).toString(16)) + (bytes[0] & 0xFF).toString(16);
-                const serviceDataArray = extractBytes(scanRecord, currentPos + exports.UUIDLength.UUID_BYTES_16_BIT, dataLength - exports.UUIDLength.UUID_BYTES_16_BIT);
+                var bytes = extractBytes(scanRecord, currentPos, exports.UUIDLength.UUID_BYTES_16_BIT);
+                var serviceDataUuid = '' + ((bytes[1] & 0xFF).toString(16)) + (bytes[0] & 0xFF).toString(16);
+                var serviceDataArray = extractBytes(scanRecord, currentPos + exports.UUIDLength.UUID_BYTES_16_BIT, dataLength - exports.UUIDLength.UUID_BYTES_16_BIT);
                 serviceData[serviceDataUuid] = serviceDataArray;
                 break;
             case exports.AdvertisementDataType.DATA_TYPE_MANUFACTURER_SPECIFIC_DATA:
@@ -99,27 +99,27 @@ function parseAdvertisementBytes(scanRecord) {
         serviceUuids = null;
     }
     return {
-        advertiseFlag,
-        serviceUuids,
-        localName,
+        advertiseFlag: advertiseFlag,
+        serviceUuids: serviceUuids,
+        localName: localName,
         txPower: txPowerLevel,
-        manufacturerData,
-        serviceData,
+        manufacturerData: manufacturerData,
+        serviceData: serviceData,
     };
 }
 function isRealPacket(data) {
     if (typeof data.manufacturerData !== 'undefined' &&
         typeof data.serviceUuids !== 'undefined') {
-        const manus = Object.keys(data.manufacturerData);
+        var manus = Object.keys(data.manufacturerData);
         return (manus && manus.length > 0) ||
             (data.serviceUuids && data.serviceUuids.length > 0);
     }
     return false;
 }
 function parseServiceUuid(scanRecord, currentPos, dataLength, uuidLength) {
-    const result = [];
+    var result = [];
     while (dataLength > 0) {
-        const uuidBytes = extractBytes(scanRecord, currentPos, uuidLength);
+        var uuidBytes = extractBytes(scanRecord, currentPos, uuidLength);
         try {
             result.push(parseUuidFrom(uuidBytes));
         }
@@ -138,22 +138,22 @@ function extractBytes(scanRecord, start, length) {
 //BASE_UUID = "00000000-0000-1000-8000-00805F9B34FB";
 //[0, 0, 0, 0, 0, 0, 16, 0, 128, 0, 0, 128, 95, 155, 52, 251]
 //The first 4 bytes are what we're looking for
-const BASE_LOW_BYTES = [0, 0, 16, 0, 128, 0, 0, 128, 95, 155, 52, 251];
+var BASE_LOW_BYTES = [0, 0, 16, 0, 128, 0, 0, 128, 95, 155, 52, 251];
 function parseUuidFrom(uuidBytes) {
     if (!uuidBytes) {
         throw new Error('uuidBytes cannot be null');
     }
-    const length = uuidBytes.length;
+    var length = uuidBytes.length;
     if (length !== exports.UUIDLength.UUID_BYTES_16_BIT &&
         length !== exports.UUIDLength.UUID_BYTES_32_BIT &&
         length !== exports.UUIDLength.UUID_BYTES_128_BIT) {
-        throw new Error(`uuidBytes length invalid - ${length}`);
+        throw new Error("uuidBytes length invalid - " + length);
     }
     // Construct a 128 bit UUID.
     if (length === exports.UUIDLength.UUID_BYTES_128_BIT) {
         return bytesToUUID(uuidBytes);
     }
-    let bytes;
+    var bytes;
     if (length === exports.UUIDLength.UUID_BYTES_16_BIT) {
         //First two bytes are blank
         bytes = [0, 0, uuidBytes[1] & 0xFF, uuidBytes[0] & 0xFF];
@@ -169,7 +169,7 @@ function parseUuidFrom(uuidBytes) {
  * @returns string Converted string
  */
 function uintArrayToString(uintArray) {
-    const encodedString = String.fromCharCode.apply(null, uintArray);
+    var encodedString = String.fromCharCode.apply(null, uintArray);
     return decodeURIComponent(encodedString);
 }
 //Given an array of bytes that represent the advertisement data, retreive information from it.
@@ -190,19 +190,20 @@ function uintArrayToString(uintArray) {
 }
  */
 function parseManufacturerData(scanRecord, currentPos, dataLength) {
-    const manufacturerId = ((scanRecord[currentPos + 1] & 0xff) << 8) + (scanRecord[currentPos] & 0xff);
-    return { [manufacturerId]: extractBytes(scanRecord, currentPos + 2, dataLength - 2) };
+    var _a;
+    var manufacturerId = ((scanRecord[currentPos + 1] & 0xff) << 8) + (scanRecord[currentPos] & 0xff);
+    return _a = {}, _a[manufacturerId] = extractBytes(scanRecord, currentPos + 2, dataLength - 2), _a;
 }
 function bytesToUUID(ints) {
     if (ints.length < 5) {
         return null;
     }
-    let str = '';
-    let pos = 0;
-    let parts = [4, 2, 2, 2, 6];
-    for (let i = 0; i < parts.length; i++) {
-        for (let j = 0; j < parts[i]; j++) {
-            let octet = ints[pos++].toString(16);
+    var str = '';
+    var pos = 0;
+    var parts = [4, 2, 2, 2, 6];
+    for (var i = 0; i < parts.length; i++) {
+        for (var j = 0; j < parts[i]; j++) {
+            var octet = ints[pos++].toString(16);
             if (octet.length === 1) {
                 octet = '0' + octet;
             }
@@ -914,8 +915,8 @@ var eddystoneUrlEncoding = {
 var eddystoneUrlEncoding_1 = eddystoneUrlEncoding.decode;
 
 // @ts-ignore
-const EDDYSTONE_UUID = '0000feaa-0000-1000-8000-00805f9b34fb';
-const EDDYSTONE_SHORT_UUID = 'feaa';
+var EDDYSTONE_UUID = '0000feaa-0000-1000-8000-00805f9b34fb';
+var EDDYSTONE_SHORT_UUID = 'feaa';
 (function (EddystoneTypes) {
     EddystoneTypes[EddystoneTypes["UID"] = 0] = "UID";
     EddystoneTypes[EddystoneTypes["URL"] = 16] = "URL";
@@ -926,7 +927,7 @@ function isEddystone(data) {
     if (typeof data.manufacturerData === 'undefined') {
         data = parseAdvertisementBytes(data);
     }
-    const packet = data;
+    var packet = data;
     return (packet.serviceUuids && (packet.serviceUuids.indexOf(EDDYSTONE_UUID) > -1 || packet.serviceUuids.indexOf(EDDYSTONE_SHORT_UUID) > -1));
 }
 //I got most of this from https://github.com/sandeepmistry/node-eddystone-beacon-scanner/blob/master/lib/eddystone-beacon-scanner.js
@@ -935,8 +936,8 @@ function bytesToEddystone(bytes) {
         return null;
     }
     //First byte is the type
-    const data = Buffer.from(bytes);
-    const returnObj = {
+    var data = Buffer.from(bytes);
+    var returnObj = {
         type: bytes[0],
         txPower: data.readInt8(1),
     };
@@ -982,7 +983,7 @@ function isIBeacon(data) {
             return false;
         }
     }
-    const bytes = data;
+    var bytes = data;
     //If byte 0 is 2 and byte 1 is 21, it's an iBeacon
     return bytes.length > 1 && bytes[0] === 0x02 && bytes[1] === 0x15;
 }
@@ -990,13 +991,13 @@ function bytesToIBeacon(bytes) {
     if (!isIBeacon(bytes)) {
         return null;
     }
-    let rest = bytes.slice(2); //The first 2 bytes are the iBeacon identifiers
-    const uuid = bytesToUUID(rest);
+    var rest = bytes.slice(2); //The first 2 bytes are the iBeacon identifiers
+    var uuid = bytesToUUID(rest);
     rest = rest.slice(16); //16 bytes for the UUID
-    const buffer = new Uint8Array(rest).buffer;
-    const view = new DataView(buffer);
+    var buffer = new Uint8Array(rest).buffer;
+    var view = new DataView(buffer);
     return {
-        uuid,
+        uuid: uuid,
         major: view.getUint16(0),
         majorHigh: view.getUint8(0),
         majorLow: view.getUint8(1),
@@ -1016,7 +1017,7 @@ function isAltBeacon(data) {
             return false;
         }
     }
-    const bytes = data;
+    var bytes = data;
     //If byte 0 is 190 and byte 1 is 172, it's an AltBeacon. Also, this makes it cute 0xBEAC
     return bytes.length > 1 && bytes[0] === 0xbe && bytes[1] === 0xac;
 }
@@ -1024,12 +1025,12 @@ function bytesToAltBeacon(bytes) {
     if (!isAltBeacon(bytes)) {
         return null;
     }
-    let rest = bytes.slice(2); //first 2 bytes are the AltBeacon identifiers
-    const id = [];
-    const buffer = new Uint8Array(rest).buffer;
-    const view = new DataView(buffer);
-    const leftovers = [];
-    let x = 0;
+    var rest = bytes.slice(2); //first 2 bytes are the AltBeacon identifiers
+    var id = [];
+    var buffer = new Uint8Array(rest).buffer;
+    var view = new DataView(buffer);
+    var leftovers = [];
+    var x = 0;
     for (; x < 16; ++x) {
         id.push(view.getUint8(x).toString(16));
     }
@@ -1045,7 +1046,7 @@ function bytesToAltBeacon(bytes) {
 }
 
 function getBeaconData(data) {
-    const type = getBeaconType(data);
+    var type = getBeaconType(data);
     switch (type) {
         case exports.BeaconType.iBeacon:
             return (data.manufacturerData && data.manufacturerData[exports.Manufacturer.Apple] && bytesToBeacon(data.manufacturerData[exports.Manufacturer.Apple]));
@@ -1057,9 +1058,9 @@ function getBeaconData(data) {
     return null;
 }
 function isBeacon(data) {
-    let checkdata = data;
+    var checkdata = data;
     try {
-        let result = parseAdvertisementBytes(data);
+        var result = parseAdvertisementBytes(data);
         if (isEddystone(result)) {
             return true;
         }
@@ -1078,11 +1079,11 @@ function getBeaconType(data) {
         if (isEddystone(data)) {
             return exports.BeaconType.Eddystone;
         }
-        const manudata = data.manufacturerData;
+        var manudata = data.manufacturerData;
         //For Alt and Ibeacon, we check the manufacturer data
-        const manus = Object.keys(manudata);
-        for (let x = 0; x < manus.length; ++x) {
-            const result = +manus[x];
+        var manus = Object.keys(manudata);
+        for (var x = 0; x < manus.length; ++x) {
+            var result = +manus[x];
             switch (result) {
                 case exports.Manufacturer.Apple:
                     if (isIBeacon(manudata[result])) {
@@ -1099,8 +1100,8 @@ function getBeaconType(data) {
         return null;
     }
     //At this point, we need to check the bytes. First check if we are given an advertisement raw sample
-    const bytes = data;
-    const adverdata = parseAdvertisementBytes(bytes);
+    var bytes = data;
+    var adverdata = parseAdvertisementBytes(bytes);
     if (isRealPacket(adverdata)) {
         return getBeaconType(adverdata);
     }
@@ -1123,7 +1124,7 @@ function bytesToBeacon(bytes) {
     if (!isKnownBeacon(bytes)) {
         return null;
     }
-    const type = getBeaconType(bytes);
+    var type = getBeaconType(bytes);
     switch (type) {
         case exports.BeaconType.iBeacon:
             return bytesToIBeacon(bytes);
