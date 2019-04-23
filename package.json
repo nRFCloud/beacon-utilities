@@ -8,16 +8,23 @@
 		"eddystone-url-encoding": "^1.0.1"
 	},
 	"devDependencies": {
+		"@babel/core": "^7.4.3",
+		"@babel/polyfill": "^7.4.3",
+		"@babel/preset-env": "^7.4.3",
+		"@babel/register": "^7.4.0",
 		"@types/jest": "^23.3.12",
 		"@types/ms": "^0.7.30",
 		"del-cli": "^1.1.0",
 		"jest": "^23.6.0",
+		"riteway": "^6.0.3",
 		"rollup": "^1.0.0",
 		"rollup-plugin-commonjs": "^9.2.0",
 		"rollup-plugin-json": "^3.1.0",
 		"rollup-plugin-node-builtins": "^2.1.2",
 		"rollup-plugin-node-resolve": "^4.0.0",
 		"rollup-plugin-typescript": "^1.0.0",
+		"rollup-plugin-typescript2": "^0.19.2",
+		"tap-color": "^1.1.0",
 		"ts-jest": "^23.10.5",
 		"ts-node": "^7.0.1",
 		"tslib": "^1.9.3",
@@ -27,8 +34,9 @@
 		"clean": "del-cli dist/*.js",
 		"build": "npm run clean && rollup -c --environment NODE_ENV:production",
 		"dev": "rollup -c -w",
-		"test": "jest",
+		"test": "jest && riteway -r @babel/register -r @babel/polyfill test/*-test.js | tap-color",
 		"pretest": "npm run build"
+
 	},
 	"files": [
 		"dist"
@@ -43,7 +51,7 @@
 		"transform": {
 			"^.+\\.tsx?$": "ts-jest"
 		},
-		"testRegex": "((test|spec))\\.(ts|tsx|js)$",
+		"testRegex": "test.ts",
 		"coverageReporters": [
 			"html",
 			"lcov"

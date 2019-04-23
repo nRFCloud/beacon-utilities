@@ -1,5 +1,4 @@
 // @ts-ignore
-// @ts-ignore
 import {
 	bytesToBeacon,
 	bytesToUUID,

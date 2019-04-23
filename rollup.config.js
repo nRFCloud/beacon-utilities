@@ -1,9 +1,13 @@
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
-import typescript from 'rollup-plugin-typescript';
+import typescript from 'rollup-plugin-typescript2';
 import builtins from 'rollup-plugin-node-builtins';
 import json from 'rollup-plugin-json';
 import pkg from './package.json';
+
+const typescriptOpts = {
+	exclude: ["*.d.ts", "**/*.d.ts", "./test/**"],
+};
 
 export default [
 	{
@@ -17,7 +21,7 @@ export default [
 			resolve(),
 			commonjs(),
 			builtins(),
-			typescript(),
+			typescript(typescriptOpts),
 			json()
 		]
 	},
@@ -29,7 +33,7 @@ export default [
 			resolve(),
 			commonjs(),
 			builtins(),
-			typescript(),
+			typescript(typescriptOpts),
 			json()
 		],
 		output: [
