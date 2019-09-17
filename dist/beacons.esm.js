@@ -227,43 +227,41 @@ function convertTypeToManufacturer(type) {
 }
 
 var prefixes = [
-  "http://www.",
-  "https://www.",
-  "http://",
-  "https://"
-]
-;
+	"http://www.",
+	"https://www.",
+	"http://",
+	"https://"
+];
 
 var prefixes$1 = /*#__PURE__*/Object.freeze({
-	default: prefixes
+	'default': prefixes
 });
 
 var suffixes = [
-  ".com/",
-  ".org/",
-  ".edu/",
-  ".net/",
-  ".info/",
-  ".biz/",
-  ".gov/",
-  ".com",
-  ".org",
-  ".edu",
-  ".net",
-  ".info",
-  ".biz",
-  ".gov"
-]
-;
+	".com/",
+	".org/",
+	".edu/",
+	".net/",
+	".info/",
+	".biz/",
+	".gov/",
+	".com",
+	".org",
+	".edu",
+	".net",
+	".info",
+	".biz",
+	".gov"
+];
 
 var suffixes$1 = /*#__PURE__*/Object.freeze({
-	default: suffixes
+	'default': suffixes
 });
 
-var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 function getCjsExportFromNamespace (n) {
-	return n && n.default || n;
+	return n && n['default'] || n;
 }
 
 var prefixes$2 = getCjsExportFromNamespace(prefixes$1);
@@ -1137,4 +1135,4 @@ function bytesToBeacon(bytes) {
     return null;
 }
 
-export { getBeaconData, isBeacon, getBeaconType, isKnownBeacon, bytesToBeacon, EDDYSTONE_UUID, EDDYSTONE_SHORT_UUID, EddystoneTypes, isEddystone, bytesToEddystone, getEddystoneData, isAltBeacon, bytesToAltBeacon, isIBeacon, bytesToIBeacon, Manufacturer, UUIDLength, AdvertisementDataType, BeaconType, parseAdvertisementBytes, isRealPacket, extractBytes, uintArrayToString, parseManufacturerData, bytesToUUID, convertTypeToManufacturer };
+export { AdvertisementDataType, BeaconType, EDDYSTONE_SHORT_UUID, EDDYSTONE_UUID, EddystoneTypes, Manufacturer, UUIDLength, bytesToAltBeacon, bytesToBeacon, bytesToEddystone, bytesToIBeacon, bytesToUUID, convertTypeToManufacturer, extractBytes, getBeaconData, getBeaconType, getEddystoneData, isAltBeacon, isBeacon, isEddystone, isIBeacon, isKnownBeacon, isRealPacket, parseAdvertisementBytes, parseManufacturerData, uintArrayToString };

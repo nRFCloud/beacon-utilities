@@ -1,6 +1,6 @@
 {
 	"name": "beacon-utilities",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"main": "dist/beacons.cjs.js",
 	"module": "dist/beacons.esm.js",
 	"browser": "dist/beacons.umd.js",
@@ -8,27 +8,27 @@
 		"eddystone-url-encoding": "^1.0.1"
 	},
 	"devDependencies": {
-		"@babel/core": "^7.4.3",
-		"@babel/polyfill": "^7.4.3",
-		"@babel/preset-env": "^7.4.3",
-		"@babel/register": "^7.4.0",
-		"@types/jest": "^23.3.12",
-		"@types/ms": "^0.7.30",
-		"del-cli": "^1.1.0",
-		"jest": "^23.6.0",
-		"riteway": "^6.0.3",
-		"rollup": "^1.0.0",
-		"rollup-plugin-commonjs": "^9.2.0",
-		"rollup-plugin-json": "^3.1.0",
+		"@babel/core": "^7.6.0",
+		"@babel/polyfill": "^7.6.0",
+		"@babel/preset-env": "^7.6.0",
+		"@babel/register": "^7.6.0",
+		"@types/jest": "^24.0.18",
+		"@types/ms": "^0.7.31",
+		"del-cli": "^3.0.0",
+		"jest": "^24.9.0",
+		"riteway": "^6.1.0",
+		"rollup": "^1.21.4",
+		"rollup-plugin-commonjs": "^10.1.0",
+		"rollup-plugin-json": "^4.0.0",
 		"rollup-plugin-node-builtins": "^2.1.2",
-		"rollup-plugin-node-resolve": "^4.0.0",
-		"rollup-plugin-typescript": "^1.0.0",
-		"rollup-plugin-typescript2": "^0.19.2",
+		"rollup-plugin-node-resolve": "^5.2.0",
+		"rollup-plugin-typescript": "^1.0.1",
+		"rollup-plugin-typescript2": "^0.24.2",
 		"tap-color": "^1.1.0",
-		"ts-jest": "^23.10.5",
-		"ts-node": "^7.0.1",
-		"tslib": "^1.9.3",
-		"typescript": "^3.2.2"
+		"ts-jest": "^24.1.0",
+		"ts-node": "^8.4.1",
+		"tslib": "^1.10.0",
+		"typescript": "^3.6.3"
 	},
 	"scripts": {
 		"clean": "del-cli dist/*.js",
@@ -36,7 +36,6 @@
 		"dev": "rollup -c -w",
 		"test": "jest && riteway -r @babel/register -r @babel/polyfill test/*-test.js | tap-color",
 		"pretest": "npm run build"
-
 	},
 	"files": [
 		"dist"
@@ -68,5 +67,6 @@
 		"type": "git",
 		"url": "git@github.com:nRFCloud/beacon-utilities.git"
 	},
-	"license": "BSD-3-Clause"
+	"license": "BSD-3-Clause",
+	"types": "./dist/src/main.d.ts"
 }

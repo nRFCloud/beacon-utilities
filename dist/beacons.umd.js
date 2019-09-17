@@ -229,43 +229,41 @@
 	}
 
 	var prefixes = [
-	  "http://www.",
-	  "https://www.",
-	  "http://",
-	  "https://"
-	]
-	;
+		"http://www.",
+		"https://www.",
+		"http://",
+		"https://"
+	];
 
 	var prefixes$1 = /*#__PURE__*/Object.freeze({
-		default: prefixes
+		'default': prefixes
 	});
 
 	var suffixes = [
-	  ".com/",
-	  ".org/",
-	  ".edu/",
-	  ".net/",
-	  ".info/",
-	  ".biz/",
-	  ".gov/",
-	  ".com",
-	  ".org",
-	  ".edu",
-	  ".net",
-	  ".info",
-	  ".biz",
-	  ".gov"
-	]
-	;
+		".com/",
+		".org/",
+		".edu/",
+		".net/",
+		".info/",
+		".biz/",
+		".gov/",
+		".com",
+		".org",
+		".edu",
+		".net",
+		".info",
+		".biz",
+		".gov"
+	];
 
 	var suffixes$1 = /*#__PURE__*/Object.freeze({
-		default: suffixes
+		'default': suffixes
 	});
 
-	var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+	var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 	function getCjsExportFromNamespace (n) {
-		return n && n.default || n;
+		return n && n['default'] || n;
 	}
 
 	var prefixes$2 = getCjsExportFromNamespace(prefixes$1);
@@ -1138,27 +1136,27 @@
 	    return null;
 	}
 
-	exports.getBeaconData = getBeaconData;
-	exports.isBeacon = isBeacon;
-	exports.getBeaconType = getBeaconType;
-	exports.isKnownBeacon = isKnownBeacon;
-	exports.bytesToBeacon = bytesToBeacon;
-	exports.EDDYSTONE_UUID = EDDYSTONE_UUID;
 	exports.EDDYSTONE_SHORT_UUID = EDDYSTONE_SHORT_UUID;
-	exports.isEddystone = isEddystone;
-	exports.bytesToEddystone = bytesToEddystone;
-	exports.getEddystoneData = getEddystoneData;
-	exports.isAltBeacon = isAltBeacon;
+	exports.EDDYSTONE_UUID = EDDYSTONE_UUID;
 	exports.bytesToAltBeacon = bytesToAltBeacon;
-	exports.isIBeacon = isIBeacon;
+	exports.bytesToBeacon = bytesToBeacon;
+	exports.bytesToEddystone = bytesToEddystone;
 	exports.bytesToIBeacon = bytesToIBeacon;
-	exports.parseAdvertisementBytes = parseAdvertisementBytes;
-	exports.isRealPacket = isRealPacket;
-	exports.extractBytes = extractBytes;
-	exports.uintArrayToString = uintArrayToString;
-	exports.parseManufacturerData = parseManufacturerData;
 	exports.bytesToUUID = bytesToUUID;
 	exports.convertTypeToManufacturer = convertTypeToManufacturer;
+	exports.extractBytes = extractBytes;
+	exports.getBeaconData = getBeaconData;
+	exports.getBeaconType = getBeaconType;
+	exports.getEddystoneData = getEddystoneData;
+	exports.isAltBeacon = isAltBeacon;
+	exports.isBeacon = isBeacon;
+	exports.isEddystone = isEddystone;
+	exports.isIBeacon = isIBeacon;
+	exports.isKnownBeacon = isKnownBeacon;
+	exports.isRealPacket = isRealPacket;
+	exports.parseAdvertisementBytes = parseAdvertisementBytes;
+	exports.parseManufacturerData = parseManufacturerData;
+	exports.uintArrayToString = uintArrayToString;
 
 	Object.defineProperty(exports, '__esModule', { value: true });
 
