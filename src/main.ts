@@ -1,11 +1,8 @@
-import {AdvertisementPacket, BeaconType, Manufacturer} from "./definitions";
-import {
-	isRealPacket,
-	parseAdvertisementBytes
-} from "./utilities";
-import {bytesToEddystone, EddystoneData, getEddystoneData, isEddystone} from "./Beacon/Eddystone";
-import {bytesToIBeacon, IBeaconData, isIBeacon} from "./Beacon/IBeacon";
-import {AltBeaconData, bytesToAltBeacon, isAltBeacon} from "./Beacon/AltBeacon";
+import { AdvertisementPacket, BeaconType, Manufacturer } from "./definitions";
+import { isRealPacket, parseAdvertisementBytes } from "./utilities";
+import { bytesToEddystone, EddystoneData, getEddystoneData, isEddystone } from "./Beacon/Eddystone";
+import { bytesToIBeacon, IBeaconData, isIBeacon } from "./Beacon/IBeacon";
+import { AltBeaconData, bytesToAltBeacon, isAltBeacon } from "./Beacon/AltBeacon";
 
 export * from './Beacon/Eddystone';
 export * from './Beacon/AltBeacon';
@@ -47,6 +44,44 @@ export function isBeacon(data: number[] | AdvertisementPacket): boolean {
 	return isKnownBeacon(checkdata);
 }
 
+/**
+ * Given a manufacturer Id and the data, determine beacon type
+ * You should probably use getBeaconTypeByManufacturerData with parseManufacturerData
+ * @param manufacturerId
+ * @param data
+ */
+export function getBeaconTypeByManufacturerId(manufacturerId: number, data: number[]): BeaconType {
+	switch (+manufacturerId) {
+		case Manufacturer.Apple:
+			if (isIBeacon(data)) {
+				return BeaconType.iBeacon;
+			}
+			break;
+		case Manufacturer.Radius:
+			if (isAltBeacon(data)) {
+				return BeaconType.AltBeacon;
+			}
+			break;
+	}
+	return null;
+}
+
+/**
+ * Given manufacturer data (as returned by parseManufacturerData), figure out the beacon type
+ * @param manufacturerData
+ */
+export function getBeaconTypeByManufacturerData(manufacturerData: {[key: number]: number[]}): BeaconType {
+	const manus = Object.keys(manufacturerData);
+	for (let x = 0; x < manus.length; ++x) {
+		const manuId = +manus[x];
+		const detectedType = getBeaconTypeByManufacturerId(manuId, manufacturerData[manuId])
+
+		if (detectedType !== null) {
+			return detectedType;
+		}
+	}
+	return null;
+}
 
 //Find the first beacon type
 export function getBeaconType(data: number[] | AdvertisementPacket): BeaconType {
@@ -58,24 +93,7 @@ export function getBeaconType(data: number[] | AdvertisementPacket): BeaconType 
 		}
 		const manudata = (data as AdvertisementPacket).manufacturerData;
 		//For Alt and Ibeacon, we check the manufacturer data
-		const manus = Object.keys(manudata);
-		for (let x = 0; x < manus.length; ++x) {
-			const result = +manus[x];
-			switch (result) {
-				case Manufacturer.Apple:
-					if (isIBeacon(manudata[result])) {
-						return BeaconType.iBeacon;
-					}
-					break;
-				case Manufacturer.Radius:
-					if (isAltBeacon(manudata[result])) {
-						return BeaconType.AltBeacon;
-					}
-					break;
-			}
-		}
-
-		return null;
+		return getBeaconTypeByManufacturerData(manudata);
 	}
 
 	//At this point, we need to check the bytes. First check if we are given an advertisement raw sample

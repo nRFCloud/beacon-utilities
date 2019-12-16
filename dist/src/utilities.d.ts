@@ -23,7 +23,7 @@ export declare function uintArrayToString(uintArray: number[]): string;
     "serviceData" : {}
 }
  */
-export declare function parseManufacturerData(scanRecord: number[], currentPos: number, dataLength: number): {
+export declare function parseManufacturerData(scanRecord: number[], currentPos?: number, dataLength?: number): {
     [key: string]: number[];
 };
 export declare function bytesToUUID(ints: number[]): string;

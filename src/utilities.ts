@@ -182,7 +182,10 @@ export function uintArrayToString(uintArray: number[]): string {
 }
  */
 
-export function parseManufacturerData(scanRecord: number[], currentPos: number, dataLength: number): {[key: string]: number[]} {
+export function parseManufacturerData(scanRecord: number[], currentPos: number = 0, dataLength?: number): {[key: string]: number[]} {
+	if (typeof dataLength === 'undefined') {
+		dataLength = scanRecord.length;
+	}
 	const manufacturerId = ((scanRecord[currentPos + 1] & 0xff) << 8) + (scanRecord[currentPos] & 0xff);
 	return {[manufacturerId]: extractBytes(scanRecord, currentPos + 2, dataLength - 2)};
 }

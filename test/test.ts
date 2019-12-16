@@ -13,7 +13,7 @@ import {
 	BeaconType,
 	AltBeaconData,
 	EddystoneUrlData,
-	IBeaconData,
+	IBeaconData, parseManufacturerData, getBeaconTypeByManufacturerData,
 } from '..';
 
 describe('tests beacon support', () => {
