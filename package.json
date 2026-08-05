@@ -14,6 +14,7 @@
 		"@babel/register": "^7.6.0",
 		"@types/jest": "^24.0.18",
 		"@types/ms": "^0.7.31",
+		"check-node-version": "4.2.1",
 		"del-cli": "^3.0.0",
 		"jest": "^24.9.0",
 		"riteway": "^6.1.0",
@@ -35,7 +36,8 @@
 		"build": "npm run clean && rollup -c --environment NODE_ENV:production",
 		"dev": "rollup -c -w",
 		"test": "jest && riteway -r @babel/register -r @babel/polyfill test/*-test.js | tap-color",
-		"pretest": "npm run build"
+		"pretest": "npm run build",
+		"prepare": "check-node-version --package"
 	},
 	"files": [
 		"dist"
@@ -68,5 +70,8 @@
 		"url": "git@github.com:nRFCloud/beacon-utilities.git"
 	},
 	"license": "BSD-3-Clause",
-	"types": "./dist/src/main.d.ts"
+	"types": "./dist/src/main.d.ts",
+	"engines": {
+		"npm": ">=12.0.2 <13"
+	}
 }
